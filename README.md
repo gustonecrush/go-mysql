@@ -37,7 +37,7 @@ We are going to learn about :
 
 ### Import Package MySQL
 - We can create our program, but firstly you have to import package MySQL
-```
+```go
 import (
   "database/mysql"
   "fmt"
@@ -59,10 +59,45 @@ import (
 - If object sql.DB no more used, recommend to close the connection using Close() function to avoid connection league (condition where our application has been used but the connection is still open and running, which will make the database connection will always add that will make our database crashed because of there is so much connection used, because database has maximum connection)
 
 ### Code : Open Connection to Database
-```
+```go
 db, err := sql.Open("mysql", "user:password@tcp(host:3306)/dbname")
 if err != nil {
   panic(err)
 }
 defer db.Close()
 ```
+
+## Database Pooling
+
+### Database Pooling
+- sql.DB in Golang actually is not a connection to database
+- But it is a pool to database, or known as Database Pooling concept
+- In sql.DB, Golang do management connection to database automatically. This make us not have to manage our connection to database manually
+- With this database pooling ability, we can determine minimal and maximal connection created by Golang. So, not make flood to our connection to database, because usually there is maximum connection which handled by database we used
+- Why we need to declare minimum connection, because to avoid when suddenly up traffic that we don't know, so will make the connection faster if we determine the minimum as much as we expected
+- Why we need to declare maximum connection, because to border the connection when there is bomb traffic, so they have to queue to use the connection
+
+### Database Pooling Settings
+- Method
+  - (DB) SetMaxIdleConns(number) >> setting how minimal connection created
+  - (DB) SetMaxOpenConns(number) >> setting how maximal connection created
+  - (DB) SetConnMaxIdleTime(duration) >> setting how long unused connection will be removed
+  - (DB) SetConnMaxLifetime(duration) >> setting how long connection might be used
+
+### Database Pooling in Go-Lang Database
+```go
+func GetConnection() *sql.DB {
+	db, err := sql.Open("myql", "root:root@tcp(localhost:8889)/db_golang")
+	if err != nil {
+	    panic(err)	
+    }
+	
+	db.SetMaxIdleConns(10)
+	db.SetMaxOpenConns(100)
+	db.SetConnMaxIdleTime(5 * time.Minute)
+	db.SetConnMaxLifetime(60 * time.Minute)
+}
+```
+
+
+
