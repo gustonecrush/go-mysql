@@ -99,5 +99,19 @@ func GetConnection() *sql.DB {
 }
 ```
 
+## Execution SQL Command
 
+### Execution SQL Command
+- When we use database in our application, we must to communicate with database using SQL Command
+- In Golang, there is functions that we can use to send SQL command to database using function `(DB) ExecContext(context, sql, params)`
+- When sending SQL Command, we need to send context like we have learn before in course Golang Context, with context, we can send signal cancel if we cancel our SQL command sending
 
+### Code: Create Table Customer
+```sql
+CREATE TABLE customer
+(
+    id VARCHAR(100) NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    PRIMARY KEY (id)
+) ENGINE = InnoDB;
+```
