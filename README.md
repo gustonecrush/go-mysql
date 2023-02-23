@@ -26,4 +26,23 @@ We are going to learn about :
  
 ## Golang Database Driver
 
-### How to Add Database Driver
+### Database Driver
+- Before we create code program which use database in Go-Lang, firstly, we need to add database driver
+- Without database driver, database package in Go-Lang will not understand anything, because only contain contract interface
+- You can visit <a href="https://golang.org/s/sqld rivers">for list of driver that you can use</a>
+- There is so much module driver that you can use, the best practice to choose which one is the most used one
+
+### Add Module Database MySQL
+- `go get -u github.com/go-sql-driver/mysql`
+
+### Import Package MySQL
+- We can create our program, but firstly you have to import package MySQL
+`import (
+  "database/mysql"
+  "fmt"
+  _ "github.com/go-sql-driver/mysql"
+  "testing"
+  )`
+- Why we use _ because we only need to call init function, why init function? we only want to import package, without to use package manual, so automatically 
+
+## Create Connection to Database
