@@ -37,12 +37,32 @@ We are going to learn about :
 
 ### Import Package MySQL
 - We can create our program, but firstly you have to import package MySQL
-`import (
+```
+import (
   "database/mysql"
   "fmt"
   _ "github.com/go-sql-driver/mysql"
   "testing"
-  )`
+)
+ ```
 - Why we use _ because we only need to call init function, why init function? we only want to import package, without to use package manual, so automatically 
 
 ## Create Connection to Database
+
+### Create Connection to Database
+- The first things that we have to do before we create our application is open connection to database
+- To open connection to database in Golang, we can create object sql.DB using function sql.Open(driver, dataSourceName)
+- To use MySQL database, we can use driver "mysql"
+- For dataSourceName, every database has their own writing to connect to database.
+  - For MySQL, we can use dataSourceName like this
+    `username:password@tcp(host:port)/database_name`
+- If object sql.DB no more used, recommend to close the connection using Close() function to avoid connection league (condition where our application has been used but the connection is still open and running, which will make the database connection will always add that will make our database crashed because of there is so much connection used, because database has maximum connection)
+
+### Code : Open Connection to Database
+```
+db, err := sql.Open("mysql", "user:password@tcp(host:3306)/dbname")
+if err != nil {
+  panic(err)
+}
+defer db.Close()
+```
