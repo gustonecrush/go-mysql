@@ -129,3 +129,43 @@ if err != nil {
 }
 fmt.Println("Success Insert Data to Database")
 ```
+
+## Query SQL
+
+### Query SQL
+- For SQL operation which not need result, we can use Exec command, but if we need result, such as SELECT SQL, we need to use different Function
+- Function for querying to database, we can use function `(DB) QueryContext(context, sql, params)`
+
+### Code: Query SQL
+```go
+db := GetConnection()
+defer db.Close()
+
+ctx := context.Background()
+rows, err := db.QueryContext(ctx, "SELECT id, name FROM customer")
+if err != nil {
+	panic(err)
+}
+defer rows.Close()
+```
+
+### Rows
+- Query Result is a data struct sql.Rows
+- Rows is used to do iteration to query result
+- We can use function `(Rows) Next() (boolean)` to do iteration to data query result, if return data false, it means thers is no data again in result
+- To read every data, we can use `(Rows) Scan(columns...)`
+- Do not forget, after Rows, we have to close the rows `(Rows) Close()`
+
+### Code: Rows
+```go
+for rows.Next() {
+	var id, name string
+	err := rows.Scan(&id, &name)
+	if err != nil {
+		panic(err)
+    }
+	fmt.Println("Id: ", id)
+	fmt.Println("Name: ", name)
+}
+defer rows.Close()
+```
