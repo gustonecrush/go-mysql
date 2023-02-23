@@ -115,3 +115,17 @@ CREATE TABLE customer
     PRIMARY KEY (id)
 ) ENGINE = InnoDB;
 ```
+
+### Code: Sending SQL Command Insert
+```go
+db := GetConnection()
+defer db.Close()
+
+ctx := context.Background()
+
+_, err := db.ExecContext(ctx, "INSERT INTO customer(id, name) VALUES ('farhan', 'Farhan);")
+if err != nil {
+	panic(err)
+}
+fmt.Println("Success Insert Data to Database")
+```
