@@ -1,5 +1,10 @@
 # Go Mysql
 
+## Files
+1. database_test.go, file contains to test connection to database
+2. database.go, file contains the connection to database, so make it reusable in every test or file
+3. sql_test.go, file contains test about Exec, Query, and Rows SQL
+
 ## Agenda
 We are going to learn about : 
 1. Introduction Golang Database
